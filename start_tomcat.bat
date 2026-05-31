@@ -1,0 +1,9 @@
+@echo off
+echo Starting XAMPP Tomcat...
+cd /d C:\xampp\tomcat\bin
+start /B catalina.bat start 2>&1
+timeout /t 8 >nul
+echo Checking Tomcat...
+netstat -an | findstr :8080 >nul && echo Tomcat listening on 8080 || echo No listener on 8080 yet
+tasklist | findstr /i java.exe | findstr /i tomcat || echo Looking for java...
+echo.

@@ -1,10 +1,66 @@
-# Projeto_Restaurante
+# Projeto Restaurante - Sistema de Controle de Pedidos
 
-<p>  A ideia inicial é projetar uma aplicação Web que mecanize as tarefas sem complicar procedimentos simples, como anotar um pedido ou entregar um produto em sua devida mesa. Além disso, o sistema não poderá mudar a rotina da empresa e nem dos funcionários que farão uso do software, como também o protótipo deve auxiliar a gerencia do bar e restaurante.</p> 
+## Como rodar localmente (Windows)
 
-<p><h3>1.1-Descrição da Regra de Negócio</h3>
-  O cliente chega e procura uma mesa vaga, em seguida é atendido pelo garçom. O mesmo mostra os itens disponíveis do cardápio para o cliente, o cliente solicita os produtos ao garçom. Se houver o produto exigido pelo cliente, o garçom anota na comanda e executa o pedido, senão o garçom pergunta se o cliente deseja outra opção, se o cliente não desejar nada, ele tem a opção de desistir.
-Com o pedido pronto, o garçom verifica o número da mesa descrito no pedido e leva até o cliente, depois o garçom pergunta se deseja algo mais, caso o cliente queira, repte-se todo o procedimento acima, caso o cliente não deseje mais nada o garçom fecha a comanda e pergunta qual seria a forma de pagamento. O cliente efetua o pagamento e assim finaliza o pedido.</p>
+### 1. Instale o XAMPP (para o banco de dados)
 
-<p><h3>Link da documentação: <a href="https://github.com/Fabiano-1979/projeto_restaurante-8-teste/raw/main/3%C2%BA%20-%20Pontao_do_pistao_sul_final_correc%CC%A7o%CC%83es%20a%20fazer.docx">BAIXAR DOCUMENTAÇÃO</a> </h3>
-</p>
+Siga o guia completo:
+→ **[COMO_INSTALAR_XAMPP.md](COMO_INSTALAR_XAMPP.md)**
+
+### 2. Instale o Apache Tomcat 9 (obrigatório para a aplicação Java)
+
+O XAMPP atual não inclui Tomcat. Você precisa baixar separadamente:
+- Baixe Tomcat 9 em: https://tomcat.apache.org/download-90.cgi (arquivo .zip)
+- Extraia para `C:\Tomcat9` (recomendado)
+
+### 3. Crie o banco de dados
+
+Após instalar o XAMPP e iniciar o MySQL, execute:
+```
+CRIAR_BANCO_XAMPP.bat
+```
+
+Ou importe manualmente o arquivo `setup_database.sql` pelo phpMyAdmin.
+
+### 4. Faça o deploy da aplicação
+
+Siga o guia:
+→ **[COMO_DEPLOY_TOMCAT.md](COMO_DEPLOY_TOMCAT.md)**
+
+### 5. Inicie o Tomcat
+
+Execute:
+```
+INICIAR_TOMCAT.bat
+```
+
+### 6. Acesse o sistema
+
+Abra no navegador:
+
+**http://localhost:8080/restaurante/login.jsp**
+
+- **Login:** `admin`
+- **Senha:** `123`
+
+---
+
+## Arquivos úteis criados
+
+- `COMO_INSTALAR_XAMPP.md` — Passo a passo completo
+- `COMO_DEPLOY_TOMCAT.md` — Como subir a aplicação
+- `CRIAR_BANCO_XAMPP.bat` — Script automático para criar o banco
+- `INICIAR_TOMCAT.bat` — Script para iniciar o Tomcat facilmente
+- `setup_database.sql` — Script completo do banco com dados iniciais
+
+---
+
+## Regra de Negócio
+
+O cliente chega e procura uma mesa vaga, em seguida é atendido pelo garçom. O mesmo mostra os itens disponíveis do cardápio para o cliente, o cliente solicita os produtos ao garçom. Se houver o produto exigido pelo cliente, o garçom anota na comanda e executa o pedido, senão o garçom pergunta se o cliente deseja outra opção, se o cliente não desejar nada, ele tem a opção de desistir.
+
+Com o pedido pronto, o garçom verifica o número da mesa descrito no pedido e leva até o cliente, depois o garçom pergunta se deseja algo mais, caso o cliente queira, repete-se todo o procedimento acima, caso o cliente não deseje mais nada o garçom fecha a comanda e pergunta qual seria a forma de pagamento. O cliente efetua o pagamento e assim finaliza o pedido.
+
+---
+
+**Link da documentação original:** [BAIXAR DOCUMENTAÇÃO](https://github.com/Fabiano-1979/projeto_restaurante-8-teste/raw/main/3%C2%BA%20-%20Pontao_do_pistao_sul_final_correc%CC%A7o%CC%83es%20a%20fazer.docx)

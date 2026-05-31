@@ -17,7 +17,7 @@ public class DataBaseDAO {
     public void conectar() throws Exception{
         String user = "root";
         String password = "";
-        String url = "jdbc:mysql://localhost/projeto_restaurante_5_teste";
+        String url = "jdbc:mysql://localhost/projeto_restaurante_5_teste?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo&useUnicode=true&characterEncoding=UTF-8";
         Class.forName("com.mysql.jdbc.Driver");
         conn = DriverManager.getConnection(url, user, password);
     }

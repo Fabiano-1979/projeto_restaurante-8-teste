@@ -1,0 +1,37 @@
+================================================================================
+                    INÍCIO RÁPIDO - SISTEMA RESTAURANTE
+================================================================================
+
+PASSO A PASSO (escolheu instalar XAMPP):
+
+1. INSTALE O XAMPP
+   → Leia o arquivo: COMO_INSTALAR_XAMPP.md
+   → Baixe em: https://www.apachefriends.org/download.html
+
+2. INICIE O MYSQL DO XAMPP
+   - Abra C:\xampp\xampp-control.exe (como Administrador)
+   - Clique em Start no MySQL (deve ficar verde)
+
+3. CRIE O BANCO DE DADOS
+   - Execute o arquivo: CRIAR_BANCO_XAMPP.bat
+   - Ou use o phpMyAdmin (botão Admin no XAMPP)
+
+4. INSTALE O TOMCAT 9 (separado)
+   - Baixe: https://tomcat.apache.org/download-90.cgi (versão 9.0.x .zip)
+   - Extraia para C:\Tomcat9
+
+5. FAÇA O DEPLOY DA APLICAÇÃO
+   - Copie a pasta "build\web" para C:\Tomcat9\webapps\restaurante
+   - Leia o arquivo: COMO_DEPLOY_TOMCAT.md
+
+6. INICIE O TOMCAT
+   - Execute: INICIAR_TOMCAT.bat
+
+7. ACESSE O SISTEMA
+   http://localhost:8080/restaurante/login.jsp
+   Login: admin
+   Senha: 123
+
+================================================================================
+Se der algum erro, cole a mensagem aqui que eu te ajudo a resolver.
+================================================================================

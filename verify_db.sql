@@ -1,0 +1,12 @@
+SELECT '=== CONNECTION OK ===' as msg;
+SELECT COUNT(*) as perfis FROM perfil;
+SELECT COUNT(*) as menus FROM menu;
+SELECT COUNT(*) as usuarios FROM usuario;
+SELECT COUNT(*) as mesas FROM mesa;
+SELECT COUNT(*) as produtos FROM produto;
+SELECT '=== ADMIN ===' as msg;
+SELECT id, login, senha, nome, situacao, id_perfil FROM usuario WHERE login='admin';
+SELECT '=== MESAS ===' as msg;
+SELECT * FROM mesa LIMIT 2;
+SELECT '=== PRODUTOS ===' as msg;
+SELECT id, nome, valor, imagem FROM produto LIMIT 3;
