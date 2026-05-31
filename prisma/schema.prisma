@@ -1,0 +1,106 @@
+// Prisma schema for Sistema Restaurante Moderno
+// Replaces the old Java + MySQL + XAMPP + Tomcat stack
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  login     String   @unique
+  senha     String   // hashed with bcrypt
+  situacao  Boolean  @default(true)
+  role      String   @default("GARCOM") // ADMIN | GARCOM
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pedidos Pedido[]
+}
+
+model Mesa {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  status    String   @default("livre") // livre | ocupada | aguardando_pagamento
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clientes  Cliente[]
+  pedidos   Pedido[]
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  cpf       String?
+  id_mesa   Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  mesa    Mesa?    @relation(fields: [id_mesa], references: [id], onDelete: SetNull)
+  pedidos Pedido[]
+}
+
+model Produto {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  tipo_produto String
+  volume       String?
+  valor        Decimal  @default(0)
+  descricao    String?
+  imagem       String   // filename in /public/images/produtos/
+  ativo        Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  itens ItemPedido[]
+}
+
+model Pedido {
+  id               Int       @id @default(autoincrement())
+  data_venda       DateTime  @default(now())
+  data_pagamento   DateTime?
+  forma_pagamento  String?   // Dinheiro, Cartao Credito, Cartao Debito, PIX, etc.
+  status           String    @default("aberto") // aberto | pago | cancelado
+
+  id_mesa    Int?
+  id_cliente Int
+  id_usuario Int
+
+  mesa    Mesa?    @relation(fields: [id_mesa], references: [id])
+  cliente Cliente  @relation(fields: [id_cliente], references: [id])
+  usuario Usuario  @relation(fields: [id_usuario], references: [id])
+
+  itens ItemPedido[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ItemPedido {
+  id          Int      @id @default(autoincrement())
+  quantidade  Int      @default(1)
+  preco       Decimal  // snapshot do preço no momento da venda
+  observacao  String?
+
+  id_produto Int
+  id_pedido  Int
+
+  produto Produto @relation(fields: [id_produto], references: [id])
+  pedido  Pedido  @relation(fields: [id_pedido], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+// Optional: Keep for future dynamic menu permissions (simplified from original)
+model Perfil {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  descricao String?
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,34 @@
+/* Custom polish for the modern restaurant system */
+
+:root {
+  --accent: #eab308;
+}
+
+input, select, textarea {
+  transition: border-color .1s ease, box-shadow .1s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #eab308 !important;
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.1);
+}
+
+.rounded-3xl {
+  border-radius: 1.25rem;
+}
+
+/* Table status cards hover effect */
+.group:hover {
+  transform: translateY(-1px);
+}
+
+/* Nice product image treatment */
+.aspect-video img {
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Small utility */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

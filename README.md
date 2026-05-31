@@ -1,5 +1,9 @@
 # Projeto Restaurante - Sistema de Controle de Pedidos
 
+> ⚠️ **VERSÃO LEGADA (Java/Tomcat/XAMPP)** — Para a **versão moderna completa em Node.js**, leia o [README-NOVO-SISTEMA.md](./README-NOVO-SISTEMA.md)
+
+---
+
 ## Como rodar localmente (Windows)
 
 ### 1. Instale o XAMPP (para o banco de dados)

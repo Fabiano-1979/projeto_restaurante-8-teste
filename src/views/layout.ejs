@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Restaurante' %></title>
+  
+  <!-- Tailwind CSS via CDN (modern & zero build) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand': {
+              50: '#fefce8',
+              100: '#fef9c3',
+              500: '#eab308',
+              600: '#ca8a04',
+              700: '#a16207',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Alpine.js for nice interactions (modals, dropdowns) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+  <% if (user) { %>
+  <!-- Top Navigation -->
+  <nav class="bg-zinc-900 border-b border-zinc-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-x-8">
+          <a href="/mesas" class="flex items-center gap-x-3">
+            <div class="w-9 h-9 bg-yellow-500 rounded-xl flex items-center justify-center text-zinc-950 font-black text-2xl">R</div>
+            <div>
+              <span class="font-bold text-xl tracking-tighter">Ponto do Pistão</span>
+              <span class="text-xs text-zinc-500 block -mt-1">Sul</span>
+            </div>
+          </a>
+          
+          <div class="hidden md:flex items-center gap-x-1 text-sm">
+            <a href="/mesas" class="px-4 py-2 rounded-xl hover:bg-zinc-800 transition <%= (typeof active === 'string' && active === 'mesas') ? 'bg-zinc-800 text-white' : '' %>">Mesas</a>
+            <a href="/pedidos" class="px-4 py-2 rounded-xl hover:bg-zinc-800 transition <%= (typeof active === 'string' && active === 'pedidos') ? 'bg-zinc-800 text-white' : '' %>">Pedidos</a>
+            <a href="/produtos" class="px-4 py-2 rounded-xl hover:bg-zinc-800 transition">Cardápio</a>
+            
+            <% if (user.role === 'ADMIN') { %>
+              <a href="/admin" class="px-4 py-2 rounded-xl hover:bg-zinc-800 transition text-yellow-400">Admin</a>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-x-4">
+          <div class="text-right text-sm hidden sm:block">
+            <div class="font-medium"><%= user.nome %></div>
+            <div class="text-[10px] text-zinc-500 -mt-0.5"><%= user.role %></div>
+          </div>
+          
+          <div class="w-8 h-8 bg-zinc-700 rounded-full flex items-center justify-center ring-2 ring-zinc-800">
+            <%= user.nome.charAt(0) %>
+          </div>
+          
+          <a href="/logout" 
+             class="text-xs px-3 py-1.5 rounded-lg border border-zinc-700 hover:bg-red-950 hover:border-red-900 hover:text-red-400 transition">
+            Sair
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <% } %>
+
+  <!-- Flash Messages -->
+  <% if (success && success.length) { %>
+    <div class="max-w-7xl mx-auto px-6 mt-4">
+      <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-3 rounded-2xl text-sm flex items-center gap-2">
+        ✓ <%= success %>
+      </div>
+    </div>
+  <% } %>
+  <% if (error && error.length) { %>
+    <div class="max-w-7xl mx-auto px-6 mt-4">
+      <div class="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-2xl text-sm flex items-center gap-2">
+        ⚠ <%= error %>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Page Content -->
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <%- body %>
+  </main>
+
+  <footer class="border-t border-zinc-800 mt-12 py-6 text-center text-xs text-zinc-500">
+    Sistema Restaurante Moderno • Node.js + Prisma + SQLite • 2026
+  </footer>
+</body>
+</html>

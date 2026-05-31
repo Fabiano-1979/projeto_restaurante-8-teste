@@ -1,0 +1,52 @@
+<%- include('../partials/header', { active: 'admin', title: 'Painel Administrativo' }) %>
+
+<div class="mb-8">
+  <h1 class="text-4xl font-bold tracking-tighter">Painel Administrativo</h1>
+  <p class="text-zinc-400">Gestão completa do restaurante</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+  <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+    <div class="text-xs uppercase text-zinc-400">Mesas cadastradas</div>
+    <div class="text-5xl font-bold mt-1"><%= stats.totalMesas %></div>
+  </div>
+  <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+    <div class="text-xs uppercase text-zinc-400">Itens no cardápio</div>
+    <div class="text-5xl font-bold mt-1"><%= stats.totalProdutos %></div>
+  </div>
+  <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+    <div class="text-xs uppercase text-zinc-400">Pedidos finalizados</div>
+    <div class="text-5xl font-bold mt-1"><%= stats.totalPedidos %></div>
+  </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-x-8">
+  <!-- Usuários -->
+  <div>
+    <div class="flex justify-between mb-3 px-1">
+      <div class="font-semibold">Usuários do sistema</div>
+      <a href="/admin/usuarios" class="text-xs text-yellow-400">Gerenciar →</a>
+    </div>
+    
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl divide-y divide-zinc-800 text-sm">
+      <% usuarios.forEach(u => { %>
+        <div class="px-5 py-3 flex justify-between items-center">
+          <div><%= u.nome %> <span class="text-xs text-zinc-400">(<%= u.login %>)</span></div>
+          <div class="text-xs px-2 py-px rounded bg-zinc-800"><%= u.role %></div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="mt-8 md:mt-0 space-y-3 text-sm">
+    <a href="/admin/mesas" class="block px-5 py-4 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded-3xl transition">Gerenciar Mesas</a>
+    <a href="/admin/produtos" class="block px-5 py-4 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded-3xl transition">Gerenciar Cardápio / Produtos</a>
+    <a href="/admin/usuarios" class="block px-5 py-4 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded-3xl transition">Cadastrar / Excluir Usuários</a>
+    
+    <div class="text-xs text-zinc-400 px-1 pt-4">
+      Dica: Use o usuário <span class="font-mono text-yellow-300">admin</span> para gerenciar tudo.
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

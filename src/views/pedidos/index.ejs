@@ -1,0 +1,50 @@
+<%- include('../partials/header', { active: 'pedidos', title: 'Histórico de Pedidos' }) %>
+
+<h1 class="text-3xl font-bold tracking-tighter mb-1">Histórico de Pedidos</h1>
+<p class="text-zinc-400 mb-6">Últimos 50 pedidos realizados</p>
+
+<div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-zinc-950 text-left text-xs uppercase tracking-widest text-zinc-400">
+      <tr>
+        <th class="px-6 py-4">#</th>
+        <th class="px-6 py-4">Data</th>
+        <th class="px-6 py-4">Mesa / Cliente</th>
+        <th class="px-6 py-4">Garçom</th>
+        <th class="px-6 py-4">Itens</th>
+        <th class="px-6 py-4 text-right">Total</th>
+        <th class="px-6 py-4">Pagamento</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-zinc-800">
+      <% pedidos.forEach(p => { 
+           const total = p.itens.reduce((s,i) => s + Number(i.preco)*i.quantidade ,0);
+      %>
+        <tr class="hover:bg-zinc-950/70">
+          <td class="px-6 py-3 font-mono font-semibold">#<%= p.id %></td>
+          <td class="px-6 py-3 text-xs text-zinc-400"><%= p.data_venda.toLocaleDateString('pt-BR') %> <%= p.data_venda.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) %></td>
+          <td class="px-6 py-3">
+            <%= p.mesa?.nome || '-' %><br>
+            <span class="text-xs text-zinc-400"><%= p.cliente?.nome %></span>
+          </td>
+          <td class="px-6 py-3 text-xs"><%= p.usuario.nome %></td>
+          <td class="px-6 py-3 text-xs"><%= p.itens.length %></td>
+          <td class="px-6 py-3 text-right font-semibold tabular-nums">R$ <%= total.toFixed(2) %></td>
+          <td class="px-6 py-3">
+            <% if (p.status === 'pago') { %>
+              <span class="text-emerald-400 text-xs px-3 py-px bg-emerald-500/10 rounded-full"><%= p.forma_pagamento || 'Pago' %></span>
+            <% } else { %>
+              <span class="text-amber-400 text-xs">Aberto</span>
+            <% } %>
+          </td>
+          <td class="px-4">
+            <a href="/pedidos/<%= p.id %>/recibo" target="_blank" class="text-yellow-400 text-xs">Recibo</a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

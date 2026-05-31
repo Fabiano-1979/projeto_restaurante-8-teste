@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: linear-gradient(135deg, #18181b 0%, #27251f 100%); }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+  <div class="w-full max-w-md">
+    <!-- Logo / Brand -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-yellow-400 rounded-3xl mb-4 shadow-xl shadow-yellow-500/30">
+        <span class="text-zinc-950 text-4xl font-black tracking-[-2px]">R</span>
+      </div>
+      <h1 class="text-3xl font-bold tracking-tighter text-white">Ponto do Pistão Sul</h1>
+      <p class="text-zinc-400 mt-1">Sistema de Controle de Pedidos</p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 shadow-2xl">
+      <h2 class="text-xl font-semibold mb-6 text-center">Acesse sua conta</h2>
+
+      <% if (error && error.length) { %>
+        <div class="mb-5 bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-3 rounded-2xl text-sm">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/login" class="space-y-5">
+        <div>
+          <label class="block text-sm font-medium text-zinc-400 mb-1.5">Login</label>
+          <input type="text" name="login" required autofocus
+                 class="w-full bg-zinc-950 border border-zinc-700 focus:border-yellow-500 rounded-2xl px-4 py-3 outline-none text-white placeholder:text-zinc-600 transition"
+                 placeholder="admin ou garcom">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-zinc-400 mb-1.5">Senha</label>
+          <input type="password" name="senha" required
+                 class="w-full bg-zinc-950 border border-zinc-700 focus:border-yellow-500 rounded-2xl px-4 py-3 outline-none text-white placeholder:text-zinc-600 transition"
+                 placeholder="123">
+        </div>
+
+        <button type="submit"
+                class="w-full mt-2 bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 transition font-semibold text-zinc-950 py-3.5 rounded-2xl text-base tracking-wider">
+          ENTRAR NO SISTEMA
+        </button>
+      </form>
+
+      <div class="mt-6 pt-5 border-t border-zinc-800 text-xs text-center text-zinc-500">
+        Usuários de teste: <span class="font-mono text-yellow-400">admin</span> ou <span class="font-mono text-yellow-400">garcom</span> / senha <span class="font-mono">123</span>
+      </div>
+    </div>
+
+    <p class="text-center text-[10px] text-zinc-600 mt-6">Versão 2.0 • Totalmente reescrito em Node.js</p>
+  </div>
+</body>
+</html>

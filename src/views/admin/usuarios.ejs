@@ -1,0 +1,48 @@
+<%- include('../partials/header', { active: 'admin', title: 'Gerenciar Usuários' }) %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-3xl font-semibold tracking-tight">Usuários</h1>
+  <a href="/admin" class="text-sm text-yellow-400">← Voltar</a>
+</div>
+
+<div class="grid lg:grid-cols-5 gap-6">
+  <!-- Form -->
+  <div class="lg:col-span-2 bg-zinc-900 border border-zinc-700 rounded-3xl p-6 h-fit">
+    <h3 class="font-medium mb-4">Novo usuário</h3>
+    <form method="POST" action="/admin/usuarios" class="space-y-4 text-sm">
+      <input type="text" name="nome" placeholder="Nome completo" required class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-4 py-2.5">
+      <input type="text" name="login" placeholder="Login (ex: joao)" required class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-4 py-2.5">
+      <input type="password" name="senha" placeholder="Senha" required class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-4 py-2.5">
+      
+      <select name="role" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-4 py-2.5">
+        <option value="GARCOM">Garçom</option>
+        <option value="ADMIN">Administrador</option>
+      </select>
+      
+      <button class="w-full bg-yellow-400 text-zinc-950 font-semibold py-2.5 rounded-2xl">Cadastrar Usuário</button>
+    </form>
+  </div>
+
+  <!-- List -->
+  <div class="lg:col-span-3">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+      <% usuarios.forEach(u => { %>
+        <div class="flex items-center justify-between px-6 py-4 border-b border-zinc-800 last:border-0 text-sm">
+          <div>
+            <span class="font-medium"><%= u.nome %></span>
+            <span class="text-xs bg-zinc-800 px-2 py-px rounded ml-2"><%= u.role %></span>
+          </div>
+          <div class="flex items-center gap-4 text-xs">
+            <span class="font-mono text-yellow-400/70"><%= u.login %></span>
+            <form action="/admin/usuarios/<%= u.id %>/excluir" method="POST" onsubmit="return confirm('Excluir este usuário?')">
+              <button class="text-red-400 hover:text-red-500">Excluir</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <p class="text-xs text-zinc-400 mt-3 px-1">O usuário admin não pode ser excluído facilmente (proteja via código se necessário).</p>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

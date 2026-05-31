@@ -1,0 +1,134 @@
+<%- include('../partials/header', { active: 'mesas', title: 'Comanda - Restaurante' }) %>
+
+<div class="flex items-center gap-4 mb-6">
+  <a href="/mesas" class="text-yellow-400 hover:underline text-sm">← Voltar para mesas</a>
+  <div class="text-sm text-zinc-400">Pedido <span class="font-mono font-semibold text-white">#<%= pedido.id %></span> • <%= pedido.mesa?.nome || 'Mesa' %> • <%= pedido.cliente?.nome %></div>
+</div>
+
+<div class="grid lg:grid-cols-5 gap-6">
+  
+  <!-- CATÁLOGO DE PRODUTOS (moderna grid de cards) -->
+  <div class="lg:col-span-3">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-semibold text-xl tracking-tight">Cardápio</h2>
+      <div class="text-xs px-3 py-1 bg-zinc-900 rounded-full border border-zinc-800"><%= produtos.length %> itens</div>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <% produtos.forEach(prod => { %>
+        <form action="/pedidos/<%= pedido.id %>/itens" method="POST" class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition rounded-3xl overflow-hidden group">
+          <input type="hidden" name="id_produto" value="<%= prod.id %>">
+          
+          <div class="aspect-video bg-zinc-950 relative overflow-hidden">
+            <img src="/images/produtos/<%= prod.imagem %>" 
+                 onerror="this.src='https://placehold.co/300x160/27251f/eab308?text=<%= prod.nome %>'"
+                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <div class="absolute top-3 right-3 bg-black/70 text-yellow-400 text-[10px] font-mono px-2 py-px rounded">
+              R$ <%= Number(prod.valor).toFixed(2) %>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <div class="font-semibold text-sm leading-tight mb-0.5"><%= prod.nome %></div>
+            <div class="text-[10px] text-zinc-400"><%= prod.tipo_produto %> • <%= prod.volume || '' %></div>
+            
+            <div class="flex items-center gap-2 mt-3">
+              <input type="number" name="quantidade" value="1" min="1" max="20"
+                     class="w-14 bg-zinc-950 border border-zinc-700 text-center rounded-2xl py-1 text-sm">
+              
+              <button type="submit"
+                      class="flex-1 bg-yellow-400 hover:bg-amber-300 active:bg-yellow-500 text-zinc-950 font-semibold text-xs py-2 rounded-2xl transition">
+                + ADICIONAR
+              </button>
+            </div>
+            
+            <input type="text" name="observacao" placeholder="Obs: sem cebola, ponto mal..."
+                   class="mt-2 w-full bg-zinc-950 text-xs border border-zinc-800 focus:border-yellow-600 rounded-2xl px-3 py-1.5 placeholder:text-zinc-600">
+          </div>
+        </form>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- CARRINHO ATUAL / COMANDA -->
+  <div class="lg:col-span-2">
+    <div class="sticky top-20 bg-zinc-900 border border-zinc-700 rounded-3xl p-6">
+      <div class="flex justify-between items-baseline mb-4">
+        <div>
+          <span class="font-semibold text-xl">Comanda Atual</span>
+          <span class="text-xs ml-2 text-amber-400"><%= pedido.itens.length %> itens</span>
+        </div>
+        <div class="text-right">
+          <div class="text-[10px] text-zinc-400">TOTAL</div>
+          <div class="font-semibold text-3xl tabular-nums text-white">R$ <%= total %></div>
+        </div>
+      </div>
+
+      <% if (pedido.itens.length === 0) { %>
+        <div class="py-12 text-center text-sm text-zinc-400 border border-dashed border-zinc-700 rounded-2xl">
+          Nenhum item adicionado.<br>
+          Escolha produtos no cardápio ao lado.
+        </div>
+      <% } else { %>
+        <div class="space-y-2 max-h-[380px] overflow-auto pr-1 custom-scroll">
+          <% pedido.itens.forEach(item => { 
+               const subtotal = (Number(item.preco) * item.quantidade).toFixed(2);
+          %>
+            <div class="flex items-start bg-zinc-950/70 rounded-2xl p-3 gap-3 text-sm">
+              <div class="flex-1 min-w-0">
+                <div class="font-medium"><%= item.produto.nome %></div>
+                <% if (item.observacao) { %>
+                  <div class="text-amber-400 text-xs italic">“<%= item.observacao %>”</div>
+                <% } %>
+                <div class="text-[10px] text-zinc-400 mt-0.5">
+                  <%= item.quantidade %> × R$ <%= Number(item.preco).toFixed(2) %>
+                </div>
+              </div>
+              
+              <div class="text-right font-semibold tabular-nums whitespace-nowrap">R$ <%= subtotal %></div>
+              
+              <form action="/pedidos/<%= pedido.id %>/itens/<%= item.id %>/remover" method="POST" class="mt-0.5">
+                <button class="text-red-400 hover:text-red-500 text-lg leading-none px-1">×</button>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+
+      <div class="border-t border-zinc-700 pt-5 mt-5">
+        <% if (pedido.itens.length > 0) { %>
+          <form action="/pedidos/<%= pedido.id %>/fechar" method="POST" 
+                onsubmit="return confirm('Fechar comanda e registrar pagamento? A mesa será liberada.')">
+            
+            <label class="text-xs tracking-widest text-zinc-400 block mb-1.5">FORMA DE PAGAMENTO</label>
+            <select name="forma_pagamento" required
+                    class="w-full bg-zinc-950 border border-zinc-600 rounded-2xl py-2.5 px-4 mb-4 text-sm">
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="PIX">PIX</option>
+              <option value="Cartão de Crédito">Cartão de Crédito</option>
+              <option value="Cartão de Débito">Cartão de Débito</option>
+              <option value="Vale Refeição">Vale Refeição</option>
+            </select>
+
+            <button type="submit"
+                    class="w-full bg-emerald-500 hover:bg-emerald-400 active:bg-emerald-600 text-emerald-950 font-bold tracking-wider py-4 rounded-2xl text-sm transition">
+              FINALIZAR PEDIDO E RECEBER PAGAMENTO
+            </button>
+          </form>
+        <% } else { %>
+          <div class="text-xs text-center text-zinc-400 py-2">Adicione itens para poder fechar a comanda</div>
+        <% } %>
+        
+        <a href="/pedidos/<%= pedido.id %>/recibo" target="_blank"
+           class="block text-center mt-3 text-xs text-yellow-400 hover:underline">Ver recibo (imprimir)</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .custom-scroll::-webkit-scrollbar { width: 5px; }
+  .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 20px; }
+</style>
+
+<%- include('../partials/footer') %>
