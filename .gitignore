@@ -1,0 +1,8 @@
+*.class
+*.jar
+local-server/tomcat/
+local-server/lib/
+Thumbs.db
+photothumb.db
+*.log
+*.tmp
